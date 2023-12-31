@@ -62,12 +62,12 @@ def parse_list(x):
         return ", ".join(x)
 
 def return_item_bakery(item_antecedents):
-    bakery = rules[["antecedents", "consequents"]].copy()
+    data = rules[["antecedents", "consequents"]].copy()
      
-    bakery["antecedents"] = bakery["antecedents"].apply(parse_list)
-    bakery["consequents"] = bakery["consequents"].apply(parse_list)
+    data["antecedents"] = data["antecedents"].apply(parse_list)
+    data["consequents"] = data["consequents"].apply(parse_list)
 
-    return list(bakery.loc[bakery["antecedents"] == item_antecedents].iloc[0,:])
+    return list(data.loc[data["antecedents"] == item_antecedents].iloc[0,:])
 
 if type(bakery) != type("No Result!"):
     st.markdown("Hasil Rekomendasi : ")
