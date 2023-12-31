@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 from mlxtend.frequent_patterns import association_rules, apriori
 
-df = pd.read_csv('Groceries_dataset.csv')
-df['Date'] = pd.to_datetime(df['Date'], format= "%d-%m-%Y")
+df = pd.read_csv('BreadBasket_DMS.csv')
+df['Date'] = pd.to_datetime(df['Date'], format= "%Y-%M-%d")
 
 df["month"] = df['Date'].dt.month
 df["day"] = df['Date'].dt.weekday
@@ -12,7 +12,7 @@ df["day"] = df['Date'].dt.weekday
 df["month"].replace([i for i in range(1, 12 + 1)], ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustur","September","Oktober","November","Desember"], inplace=True)
 df["day"].replace([i for i in range(6 + 1)], ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"],inplace=True)
 
-st.title("UAS Grocery Basket Analysis Algoritma Apriori")
+st.title("UAS Transaction from a bakery Algoritma Apriori")
 
 def get_data( month ='' , day = ''):
     data = df.copy()
@@ -23,7 +23,7 @@ def get_data( month ='' , day = ''):
     return filtered if filtered.shape[0] else "No Result!"
 
 def user_input_features():
-    item = st.selectbox("Item", ['whole milk','other vegetables','rolls/buns','soda','yogurt','root vegetables','tropical fruit','bottled water','sausage','citrus fruit','pastry','pip fruit','shopping bags','canned beer','bottled beer','whipped/sour cream','newspapers','frankfurter','brown bread','pork','domestic eggs','butter','fruit/vegetable juice','beef','curd','margarine','coffee','frozen vegetables','chicken','white bread','cream cheese','chocolate','dessert','napkins','hamburger meat','berries','UHT-milk','onions','salty snack','waffles','long life bakery product','sugar','butter milk','ham','meat','frozen meals','beverages','specialty chocolate','misc. beverages','ice cream','oil','hard cheese','grapes','candy','sliced cheese','specialty bar','hygiene articles','chewing gum','cat food','white wine','herbs','red/blush wine','soft cheese','processed cheese','flour','semi-finished bread','dishes','pickled vegetables','detergent','packaged fruit/vegetables','baking powder','pasta','pot plants','canned fish','seasonal products','liquor','frozen fish','spread cheese','condensed milk','cake bar','mustard','frozen dessert','salt','pet care','canned vegetables','roll products','turkey','photo/film','mayonnaise','cling film/bags','dish cleaner','frozen potato products','specialty cheese','flower (seeds)','sweet spreads','liquor (appetizer)','dog food','candles','finished products','instant coffee','chocolate marshmallow','Instant food products','zwieback','vinegar','liver loaf','rice','soups','popcorn','sparkling wine','curd cheese','house keeping products','sauces','cereals','softener','female sanitary products','spices','brandy','male cosmetics','meat spreads','jam','nuts/prunes','dental care','rum','ketchup','cleaner','kitchen towels','light bulbs','fish','artif. sweetener','specialty fat','snack products','tea','potato products','nut snack','abrasive cleaner','organic sausage','tidbits','canned fruit','syrup','skin care','soap','prosecco','pudding powder','cookware','bathroom cleaner','flower soil/fertilizer','cocoa drinks','cooking chocolate','ready soups','honey','cream','specialty vegetables','frozen fruits','organic products','liqueur','hair spray','decalcifier','whisky','salad dressing','make up remover','toilet cleaner','frozen chicken','rubbing alcohol','bags','baby cosmetics','kitchen utensil','preservation products'])
+    item = st.selectbox("Item", ['coffee', 'bread', 'tea', 'cake', 'pastry', 'none', 'sandwich', 'medialuna', 'hot chocolate', 'cookies', 'brownie', 'farm house', 'muffin', 'juice', 'alfajores', 'soup', 'scone', 'toast', 'scandinavian', 'truffles', 'coke', 'spanish brunch', 'fudge', 'baguette', 'jam', 'tiffin', 'mineral water', 'jammie' 'dodgers', 'chicken stew', 'hearty & seasonal', 'salad', 'frittata', 'smoothies', 'keeping it local', 'the nomad', 'focaccia', 'vegan mincepie', 'bakewell', 'tartine', 'afternoon with the baker', 'extra salami or feta', 'art tray', 'eggs', 'granola', 'tshirt', 'my-5 fruit shoot', 'ellas kitchen pouches', 'vegan feast', 'crisps', 'dulce de leche', 'valentines card', 'kids biscuit', 'duck egg', 'pick and mix bowls', 'christmas common', 'tacos/fajita', 'mighty protein', 'chocolates', 'postcard', 'gingerbread syrup', 'muesli nomad bag', 'drinking chocolate spoons', 'coffee granules', 'victorian sponge', 'empanadas', 'argentina night', 'crepes', 'honey', 'pintxos', 'lemon and coconut', 'basket', 'half slice monster', 'bare popcorn', 'panatone', 'mortimer', 'bread pudding', 'cherry me dried fruit', 'brioche and salami', 'caramel bites', 'raspberry short bread sandwich', 'fairy doors', 'hack the stack', 'bowl nic pitt', 'chimichurri oil', 'spread', 'siblings', 'gift voucher', 'raw bars', 'polenta', 'chicken sand', 'the bart', 'adjustment', 'olum & polenta', 'bacon'])
     month = st.select_slider("Month", ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"])
     day = st.select_slider("Day", ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"], value='Senin')
 
@@ -40,8 +40,8 @@ def encode(x):
         return 1
     
 if type(data) != type ("No Result"):
-    item_count = data.groupby(['Member_number', 'itemDescription'])["itemDescription"].count().reset_index(name="Count")
-    item_count_pivot = item_count.pivot_table(index='Member_number', columns='itemDescription', values='Count', aggfunc='sum').fillna(0) 
+    item_count = data.groupby(['Transaction', 'Item'])["Item"].count().reset_index(name="Count")
+    item_count_pivot = item_count.pivot_table(index='Transaction', columns='Item', values='Count', aggfunc='sum').fillna(0) 
     item_count_pivot = item_count_pivot.applymap(encode)
 
     support = 0.01
