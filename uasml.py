@@ -15,7 +15,7 @@ df["day"].replace([i for i in range(6 + 1)], ["Senin","Selasa","Rabu","Kamis","J
 
 st.title("UAS Transaction from a bakery Algoritma Apriori")
 
-def get_bakery( month ='' , day = ''):
+def get_data( month ='' , day = ''):
     bakery = df.copy()
     filtered = bakery.loc[
         (bakery["month"].str.contains(month.title())) &
@@ -32,7 +32,7 @@ def user_input_features():
 
 item, month, day = user_input_features()
 
-bakery = get_bakery(month, day)
+bakery = get_data(month, day)
 
 def encode(x):
     if x <= 0:
@@ -61,7 +61,7 @@ def parse_list(x):
     elif len(x) > 1:
         return ", ".join(x)
 
-def return_item_bakery(item_antecedents):
+def return_item_df(item_antecedents):
     bakery = rules[["antecedents", "consequents"]].copy()
      
     bakery["antecedents"] = bakery["antecedents"].apply(parse_list)
@@ -71,5 +71,5 @@ def return_item_bakery(item_antecedents):
 
 if type(bakery) != type("No Result!"):
     st.markdown("Hasil Rekomendasi : ")
-    st.success(f"Jika Konsumen Membeli **{item}**, maka membeli **{return_item_bakery(item)[1]}** secara bersamaan")
+    st.success(f"Jika Konsumen Membeli **{item}**, maka membeli **{return_item_df(item)[1]}** secara bersamaan")
     
