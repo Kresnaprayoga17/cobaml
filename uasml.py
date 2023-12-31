@@ -5,7 +5,7 @@ from mlxtend.frequent_patterns import association_rules, apriori
 
 df = pd.read_csv('BreadBasket_DMS.csv')
 df['Datetime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'], format='%Y-%m-%d %H:%M:%S')
-df['Datetime'] = pd.to_datetime(df['Datetime'], format= "%d-%m-%Y")
+df['Datetime'] = pd.to_datetime(df['Datetime'], format= "%Y-%m-%d %H:%M:%S")
 
 df["month"] = df['Datetime'].dt.month
 df["day"] = df['Datetime'].dt.weekday
