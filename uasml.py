@@ -61,7 +61,7 @@ def parse_list(x):
     elif len(x) > 1:
         return ", ".join(x)
 
-def return_item_bakery(item_antecedents):
+def return_item_df(item_antecedents):
     data = rules[["antecedents", "consequents"]].copy()
      
     data["antecedents"] = data["antecedents"].apply(parse_list)
@@ -71,5 +71,5 @@ def return_item_bakery(item_antecedents):
 
 if type(data) != type("No Result!"):
     st.markdown("Hasil Rekomendasi : ")
-    st.success(f"Jika Konsumen Membeli **{item}**, maka membeli **{return_item_bakery(item)[1]}** secara bersamaan")
+    st.success(f"Jika Konsumen Membeli **{item}**, maka membeli **{return_item_df(item)[1]}** secara bersamaan")
     
