@@ -7,8 +7,8 @@ df = pd.read_csv('BreadBasket_DMS.csv')
 df['Datetime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'], format='%Y-%m-%d %H:%M:%S')
 df['Datetime'] = pd.to_datetime(df['Datetime'], format= "%d-%m-%Y")
 
-df["month"] = bakery['Datetime'].dt.month
-df["day"] = bakery['Datetime'].dt.day
+df["month"] = df['Datetime'].dt.month
+df["day"] = df['Datetime'].dt.day
 
 df["month"].replace([i for i in range(1, 12 + 1)], ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustur","September","Oktober","November","Desember"], inplace=True)
 df["day"].replace([i for i in range(6 + 1)], ["senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"],inplace=True)
