@@ -41,7 +41,8 @@ def encode(x):
     
 if type(data) != type ("No Result"):
     item_count = data.groupby(['Transaction', 'Item'])["Item"].count().reset_index(name="Count")
-    item_count_pivot = item_count.pivot_table(index='Transaction', columns='Item', values='Count', aggfunc='sum').fillna(0) 
+    item_count_pivot = item_count.pivot_table(index='Transaction', columns='Item', values='Count', aggfunc='sum').fillna(0)
+    item_count_pivot = item_count_pivot.astype("int32")
     item_count_pivot = item_count_pivot.applymap(encode)
 
     support = 0.01
