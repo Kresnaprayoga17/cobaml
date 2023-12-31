@@ -10,7 +10,7 @@ df["month"] = df['Date'].dt.month
 df["day"] = df['Date'].dt.weekday
 
 df["month"].replace([i for i in range(1, 12 + 1)], ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustur","September","Oktober","November","Desember"], inplace=True)
-df["day"].replace([i for i in range(6 + 1)], ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"],inplace=True)
+df["day"].replace([i for i in range(6 + 1)], ["senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"],inplace=True)
 
 st.title("UAS Transaction from a bakery Algoritma Apriori")
 
@@ -42,7 +42,6 @@ def encode(x):
 if type(data) != type ("No Result"):
     item_count = data.groupby(['Transaction', 'Item'])["Item"].count().reset_index(name="Count")
     item_count_pivot = item_count.pivot_table(index='Transaction', columns='Item', values='Count', aggfunc='sum').fillna(0)
-    item_count_pivot = item_count_pivot.astype("int32")
     item_count_pivot = item_count_pivot.applymap(encode)
 
     support = 0.01
