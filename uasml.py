@@ -16,10 +16,10 @@ df["day"].replace([i for i in range(6 + 1)], ["senin","Selasa","Rabu","Kamis","J
 st.title("UAS Transaction from a bakery Algoritma Apriori")
 
 def get_bakery( month ='' , day = ''):
-    bakery = df.copy()
-    filtered = bakery.loc[
-        (bakery["month"].str.contains(month.title())) &
-        (bakery["day"].str.contains(day.title()))
+    data = df.copy()
+    filtered = data.loc[
+        (data["month"].str.contains(month.title())) &
+        (data["day"].str.contains(day.title()))
     ]
     return filtered if filtered.shape[0] else "No Result!"
 
@@ -32,7 +32,7 @@ def user_input_features():
 
 item, month, day = user_input_features()
 
-bakery = get_bakery(month, day)
+data = get_bakery(month, day)
 
 def encode(x):
     if x <= 0:
@@ -40,8 +40,8 @@ def encode(x):
     elif x >= 1:
         return 1
     
-if type(bakery) != type ("No Result"):
-    item_count = bakery.groupby(['Transaction', 'Item'])["Item"].count().reset_index(name="Count")
+if type(data) != type ("No Result"):
+    item_count = data.groupby(['Transaction', 'Item'])["Item"].count().reset_index(name="Count")
     item_count_pivot = item_count.pivot_table(index='Transaction', columns='Item', values='Count', aggfunc='sum').fillna(0) 
     item_count_pivot = item_count_pivot.applymap(encode)
 
